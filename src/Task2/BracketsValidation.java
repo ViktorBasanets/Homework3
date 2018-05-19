@@ -2,7 +2,7 @@ package Task2;
 
 import java.util.Stack;
 
-public class BracketValidation {
+public class BracketsValidation {
 
     public static void main(String[] args) {
         String str1 = validator("()[({(())})]".toCharArray());
@@ -21,7 +21,8 @@ public class BracketValidation {
         boolean braces = check(string, stack, '{', '}');
         boolean result = parentheses && squareBrackets && braces;
 
-        return (stack.isEmpty()) && result ? "is correct" : "isn't correct";
+        return stack.isEmpty() && result
+                ? "is correct" : "isn't correct";
     }
 
     static boolean check(char[] string, Stack<Character> stack, char openBracket, char closeBracket) {
