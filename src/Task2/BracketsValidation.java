@@ -5,6 +5,7 @@ import java.util.Stack;
 public class BracketsValidation {
 
     public static void main(String[] args) {
+
         String str1 = validator("()[({(())})]".toCharArray());
         System.out.println(str1);
 
