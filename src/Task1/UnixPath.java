@@ -1,124 +1,82 @@
 package Task1;
 
-import java.util.Arrays;
+import java.util.Stack;
 
 public class UnixPath {
+    char[] path;
+    Stack<char[]> stack;
+    char[] resultPath;
 
-    public static void main(String[] args) {
-
-        char[] path = "/a///..//////home/./c/".toCharArray();
-
-        replace(path, '/',0);
-        path = arrayMaker(path);
-
-        riceTo(path, "/../".toCharArray(),0);
-        path = arrayMaker(path);
-
-        stayOn(path, "/./".toCharArray(),0);
-        path = arrayMaker(path);
-
-        System.out.println(Arrays.toString(path));
-        System.out.println(path);
+    public UnixPath(char[] path) {
+        this.path = path;
+        stack = new Stack<>();
     }
 
-    private static void replace(char[] path, char ch, int index) {
+    public char[] getResultPath() {
 
-        if(index == path.length - 2) {
-            return;
-        }
-
-        if(path[index] == ch) {
-            path[index] = '\0';
-
-            if(path[index + 1] != '/') {
-                path[index] = '/';
-            }
-        }
-
-        replace(path, ch, ++index);
+        return resultPath;
     }
 
-private static void stayOn(char[] path, char[] seq, int index) {
+    public UnixPath simplifies() {
+        resultPath = new char[1];
+        resultPath[0] = '/';
 
-        if(index == path.length - 1) {
-            return;
-        }
+        for(int i = 0; i < path.length; i++) {
 
-        boolean equally = false;
+            String tempLink = new String();
 
-        for(int i = 0; i < seq.length; i++) {
-            equally = path[i + index] == seq[i] ? true : false;
-            if (!equally) {
-               break;
+            while (path[i] == '/') {
+                i++;
+            }
+
+            while (i < path.length && path[i] != '/') {
+                tempLink += path[i++];
+            }
+
+            if (tempLink.equals("..")) {
+                if (!stack.isEmpty())
+                    stack.pop();
+            } else if (tempLink.equals(".")) {
+                continue;
+            } else if (tempLink.length() != 0) {
+                stack.push(tempLink.toCharArray());
             }
         }
 
-        if(equally) {
-
-            for (int i = 0; i < seq.length; i++) {
-                path[i + index] = '\0';
-            }
-
-            path[index] = '/';
-        }
-
-        stayOn(path, seq, ++index);
+        reverseToResult();
+        return this;
     }
 
+    private void reverseToResult() {
+        Stack<char[]> tempStack = new Stack<>();
 
-    private static void riceTo(char[] path, char[] seq, int index) {
-
-        if(index == path.length - 1) {
-            return;
+        while (!stack.isEmpty()) {
+            tempStack.push(stack.pop());
         }
 
-        boolean equally = false;
+        while (!tempStack.isEmpty()) {
+            char[] array = tempStack.peek();
 
-        for(int i = 0; i < seq.length; i++) {
-            equally = path[i + index] == seq[i] ? true : false;
-            if (!equally) {
-                break;
+            if (tempStack.size() != 1) {
+                saveArray(array,resultPath.length + array.length + 1);
+                resultPath[resultPath.length - 1] = '/';
+            } else {
+                saveArray(array,resultPath.length + array.length);
             }
+            tempStack.pop();
         }
-
-        if(equally) {
-
-            for (int i = 0; i < seq.length; i++) {
-                path[i + index] = '\0';
-            }
-
-            path[index] = '/';
-
-            for(int i = index; i > 0; i--) {
-                path[i] = '\0';
-            }
-        }
-
-        riceTo(path, seq, ++index);
     }
 
-    static char[] arrayMaker(char[] array) {
-        int counter = 0;
-
-        for (int i = 0; i < array.length; i++) {
-            counter += array[i] != '\0' ? 1 : 0;
+    private void saveArray(char[] tempArray, int length) {
+        char[] temp = new char[length];
+        int i;
+        for (i = 0; i < resultPath.length; i++) {
+            temp[i] = resultPath[i];
         }
 
-        if (array[array.length - 1] == '/') {
-            counter--;
+        for (int j = 0; j < tempArray.length; j++, i++) {
+            temp[i] = tempArray[j];
         }
-
-        char[] result = new char[counter];
-
-        for (int i = 0, j = 0; i < array.length && j < result.length; i++) {
-
-            if(array[i] != '\0') {
-                result[j++] = array[i];
-            }
-        }
-
-        return result;
+        resultPath = temp;
     }
 }
-
-
