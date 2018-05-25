@@ -23,7 +23,7 @@ public class UnixPath {
 
         for(int i = 0; i < path.length; i++) {
 
-            String tempLink = new String();
+            String tempLink = "";
 
             while (path[i] == '/') {
                 i++;
