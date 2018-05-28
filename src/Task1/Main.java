@@ -9,8 +9,7 @@ public class Main {
                 "/.",
                 "/.data",
                 "/....",
-                "/home/./a/../b"
-        };
+                "/home/./a/../b"};
 
         for (int i = 0; i < paths.length; i++) {
             new UnixPath(paths[i].toCharArray())

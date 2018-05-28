@@ -3,6 +3,7 @@ package Task1;
 import java.util.Stack;
 
 public class UnixPath {
+
     private char[] path;
     private Stack<char[]> stack;
     private char[][] result;
@@ -31,7 +32,6 @@ public class UnixPath {
                 stack.push(("/" + tempLink).toCharArray());
             }
         }
-
         return this;
     }
 
