@@ -32,6 +32,7 @@ public class UnixPath {
                 stack.push(("/" + tempLink).toCharArray());
             }
         }
+        
         return this;
     }
 
