@@ -13,8 +13,7 @@ public class Main {
         };
 
         for (int i = 0; i < paths.length; i++) {
-            new UnixPath(paths[i].toCharArray())
-                    .simplifies().showResult();
+            new UnixPath(paths[i].toCharArray()).simplifies().showResult();
         }
     }
 }

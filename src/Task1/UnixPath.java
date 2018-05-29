@@ -11,9 +11,16 @@ public class UnixPath {
     public UnixPath(char[] path) {
         this.path = path;
         this.stack = new Stack<>();
+        this.result = new char[1][];
     }
 
     public UnixPath simplifies() {
+        if (String.valueOf(path).equals(String.valueOf("/.."))
+                || String.valueOf(path).equals(String.valueOf("/."))) {
+            result[0] = "/".toCharArray();
+            return this;
+        }
+
         for(int i = 0; i < path.length; i++) {
             String tempLink = "";
 
@@ -32,19 +39,15 @@ public class UnixPath {
                 stack.push(("/" + tempLink).toCharArray());
             }
         }
+        result = stack.toArray(new char[0][]);
 
         return this;
     }
 
     public void showResult() {
-        result = stack.toArray(new char[0][]);
-
         for (int i = 0; i < result.length; i++) {
             System.out.print(result[i]);
         }
-
-        if (result.length == 0) {
-            System.out.println("/");
-        } else System.out.println();
+        System.out.println();
     }
 }
