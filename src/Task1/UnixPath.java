@@ -15,8 +15,8 @@ public class UnixPath {
     }
 
     public UnixPath simplifies() {
-        if (String.valueOf(path).equals(String.valueOf("/.."))
-                || String.valueOf(path).equals(String.valueOf("/."))) {
+        if (String.valueOf(path).equals(String.valueOf("/..")) ||
+                String.valueOf(path).equals(String.valueOf("/."))) {
             result[0] = "/".toCharArray();
             return this;
         }
